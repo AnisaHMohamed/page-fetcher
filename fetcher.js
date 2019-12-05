@@ -8,7 +8,6 @@ const args = process.argv.slice(2);
 const request = require('request');
 const website = args[0]
 const pathWrite = args[1]
-const pathWeight = pathWrite.length
 let fs =require('fs')
 //let writer = fs.createWriteStream(`${pathWrite}`)
 request(`${website}`, () => {
@@ -19,8 +18,9 @@ request(`${website}`, () => {
     // })
     fs.writeFile(`${pathWrite}`, `${website}`, err=> {
       if (err) throw err;
-      
-      console.log("It's saved!");
+      fs.stat(pathWrite, (err, stat) => {
+        console.log("Downloaded and saved " +stat.size+ " bytes to " +pathWrite)
+       })
     });
   }
 
